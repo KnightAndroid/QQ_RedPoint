@@ -6,8 +6,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 /**
@@ -24,9 +26,9 @@ public class RedPointView extends View {
     private int rRadius;
 
     //点 PointF 和 Point 主要是 传参类型不一样，Point 是整形，PointF 是float
-    private PointF rDragPointF,rCenterPointF;
+   // private PointF rDragPointF,rCenterPointF;
 
-    private boolean rTouch;
+  //  private boolean rTouch;
 
     //固定圆的圆心
     PointF tCenterPointF = new PointF(300,400);
@@ -43,6 +45,7 @@ public class RedPointView extends View {
     //线条
     private Path rPath;
 
+    private int statusBarHeight;
 
 
 
@@ -85,9 +88,11 @@ public class RedPointView extends View {
         //半径 25
         rRadius = 25;
         //创建PointF对象
-        rCenterPointF = new PointF();
+      //  rCenterPointF = new PointF();
         //拖拽圆
-        rDragPointF = new PointF();
+      //  rDragPointF = new PointF();
+
+        rPath = new Path();
 
 
 
@@ -96,6 +101,7 @@ public class RedPointView extends View {
     //当视图大小改变后会回调 onSizeChanged方法比onDraw方法前调用
     protected void onSizeChanged(int w,int h,int oldw,int oldh){
         super.onSizeChanged(w,h,oldw,oldh);
+        statusBarHeight=getStatusBarHeight(this);
       //  rCenterPointF.x = w / 2;
       //  rCenterPointF.y = h / 2;
 
@@ -104,6 +110,8 @@ public class RedPointView extends View {
     //绘制方法
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
+        canvas.save();
+        //canvas.translate(0, -statusBarHeight);
 
         //绘制固定圆
         canvas.drawCircle(tCenterPointF.x,tCenterPointF.y,tCenterRadius,rPaint);
@@ -127,39 +135,85 @@ public class RedPointView extends View {
         float p1_x = tCenterPointF.x - offsetX1;
         float p1_y = tCenterPointF.y - offsetY1;
 
+
         //p2的坐标
-        float p2_x = tDragPointF.x - offsetX2;
-        float p2_y = tDragPointF.y - offsetY2;
+        float p2_x = tCenterPointF.x + offsetX1;
+        float p2_y = tCenterPointF.y + offsetY1;
+
 
         //p3的坐标
-        float p3_x = tDragPointF.x + offsetX2;
-        float p3_y = tDragPointF.y + offsetY2;
+        float p3_x = tDragPointF.x - offsetX2;
+        float p3_y = tDragPointF.y - offsetY2;
 
         //p4的坐标
-        float p4_x = tCenterPointF.x + offsetX1;
-        float p4_y = tCenterPointF.y + offsetY1;
+        float p4_x = tDragPointF.x + offsetX2;
+        float p4_y = tDragPointF.y + offsetY2;
+
+
+
+
+
 
         //控制点的坐标
         float controll_x = (tCenterPointF.x + tDragPointF.x) / 2;
         float controll_y = (tDragPointF.y + tCenterPointF.y) / 2;
 
-        rPath = new Path();
+
 
         rPath.reset();
         rPath.moveTo(p1_x,p1_y);
+        rPath.quadTo(controll_x,controll_y,p3_x,p3_y);
+        rPath.lineTo(p4_x,p4_y);
         rPath.quadTo(controll_x,controll_y,p2_x,p2_y);
-        rPath.lineTo(p3_x,p3_y);
-        rPath.quadTo(controll_x,controll_y,p4_x,p4_y);
         rPath.lineTo(p1_x,p1_y);
         rPath.close();
         canvas.drawPath(rPath,tPaint);
+        canvas.restore();
+
+    }
+
+    //重写onTouchEvent方法
+
+    public boolean onTouchEvent(MotionEvent event){
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                //event.getRawX:表示的是触摸点距离屏幕左边界的距离
+                //event.getRawY:表示的是触摸点距离屏幕上边界的距离
+                float originalDragX = event.getX();
+                float originalDragy = event.getY();
+                updateDragPoint(originalDragX,originalDragy);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float overDragX = event.getX();
+                float overDragy = event.getY();
+                //移动的时候不断更新拖拽圆的位置
+                updateDragPoint(overDragX,overDragy);
+                break;
+        }
+        return true;
+
+    }
 
 
 
+    /** 获取状态栏高度
+     * @param v
+     * @return
+     */
+    public static int getStatusBarHeight(View v) {
+        if (v == null) {
+            return 0;
+        }
+        Rect frame = new Rect();
+        v.getWindowVisibleDisplayFrame(frame);
+        return frame.top;
 
+    }
 
-
-
+    //更新拖拽圆的圆心坐标
+    private void updateDragPoint(float x,float y){
+        tDragPointF.set(x,y);
+        invalidate();
 
     }
 
