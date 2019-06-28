@@ -179,6 +179,8 @@ public class RedPointView extends View {
             case MotionEvent.ACTION_DOWN:
                 //event.getRawX:表示的是触摸点距离屏幕左边界的距离
                 //event.getRawY:表示的是触摸点距离屏幕上边界的距离
+                //event.getX()取相对于你触摸的view的左边的偏移(X坐标)
+                //event.getY()取相对于你触摸的view的顶边的偏移(Y坐标)
                 float originalDragX = event.getX();
                 float originalDragy = event.getY();
                 updateDragPoint(originalDragX,originalDragy);
