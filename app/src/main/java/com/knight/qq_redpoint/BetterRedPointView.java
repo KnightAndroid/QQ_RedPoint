@@ -16,7 +16,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
-import android.widget.ImageView;
 
 import com.knight.qq_redpoint.utils.SystemUtil;
 
@@ -65,21 +64,6 @@ public class BetterRedPointView extends View {
     //状态栏高度
     private int statusBarHeight;
 
-
-
-
-
-//    //爆炸图片
-//    private int[] explodeImgaes = new int[]{
-//            R.mipmap.explode_1,
-//            R.mipmap.explode_2,
-//            R.mipmap.explode_3,
-//            R.mipmap.explode_4,
-//            R.mipmap.explode_5
-//    };
-
-    //爆炸ImageView
-    private ImageView explodeImage;
 
     //被拖拽的小圆
     private View dragView;
@@ -178,21 +162,6 @@ public class BetterRedPointView extends View {
         params.width = WindowManager.LayoutParams.WRAP_CONTENT;
         //以左上角为基准
         params.gravity = Gravity.TOP | Gravity.LEFT;
-
-
-
-
-
-//        //添加爆炸图像
-//        explodeImage = new ImageView(getContext());
-//        //设置布局参数
-//        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-//        explodeImage.setLayoutParams(lp);
-//        explodeImage.setImageResource(R.mipmap.explode_1);
-//        //一开始不显示
-//        explodeImage.setVisibility(View.INVISIBLE);
-//        //增加到viewGroup中
-//        addView(explodeImage);
 
     }
 
@@ -535,68 +504,6 @@ public class BetterRedPointView extends View {
         animator.setDuration(500);
         animator.start();
     }
-
-
-    /**
-     *
-     * 超过拖拽范围外显示爆炸效果
-     *
-     */
-    private void showExplodeImage(){
-//        //属性动画
-//        ValueAnimator animator = ValueAnimator.ofInt(0,explodeImgaes.length - 1);
-//        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//            @Override
-//            public void onAnimationUpdate(ValueAnimator animation) {
-//                //不断更新图像变化
-//                explodeImage.setBackgroundResource(explodeImgaes[(int) animation.getAnimatedValue()]);
-//            }
-//        });
-//        //为动画添加监听
-//        animator.addListener(new AnimatorListenerAdapter() {
-//            @Override
-//            public void onAnimationCancel(Animator animation) {
-//                super.onAnimationCancel(animation);
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animator animation) {
-//                super.onAnimationEnd(animation);
-//                //结束了 把图像设置不可见状态
-//                explodeImage.setVisibility(View.GONE);
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animator animation) {
-//                super.onAnimationRepeat(animation);
-//            }
-//
-//            @Override
-//            public void onAnimationStart(Animator animation) {
-//                super.onAnimationStart(animation);
-//                //开始时 设置为可见
-//                explodeImage.setVisibility(View.VISIBLE);
-//            }
-//
-//            @Override
-//            public void onAnimationPause(Animator animation) {
-//                super.onAnimationPause(animation);
-//            }
-//
-//            @Override
-//            public void onAnimationResume(Animator animation) {
-//                super.onAnimationResume(animation);
-//            }
-//        });
-//        //时间
-//        animator.setDuration(600);
-//        //播放一次
-//        animator.setRepeatMode(ValueAnimator.RESTART);
-//        //差值器
-//        animator.setInterpolator(new OvershootInterpolator());
-//        animator.start();
-    }
-
 
     /**
      *

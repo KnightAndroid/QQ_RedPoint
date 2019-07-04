@@ -31,7 +31,7 @@ public class SystemUtil {
     }
 
 
-
+    //获取状态栏高度
     public static int getStatusBarHeight(View v){
         if(v == null){
             return 0;

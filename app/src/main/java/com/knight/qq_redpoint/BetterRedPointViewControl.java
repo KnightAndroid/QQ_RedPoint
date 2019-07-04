@@ -19,8 +19,6 @@ import com.knight.qq_redpoint.utils.SystemUtil;
 public class BetterRedPointViewControl implements View.OnTouchListener,DragViewStatusListener{
 
 
-
-
     //上下文
     private Context context;
     //拖拽布局的id
@@ -45,20 +43,7 @@ public class BetterRedPointViewControl implements View.OnTouchListener,DragViewS
     //小圆最小半径
     private float minRadius = 8;
 
-    //爆炸图片
-    private int[] explodeImgaes = new int[]{
-            R.mipmap.explode_1,
-            R.mipmap.explode_2,
-            R.mipmap.explode_3,
-            R.mipmap.explode_4,
-            R.mipmap.explode_5
-    };
-    //爆炸ImageView
-    private ImageView explodeImage;
-
-
-
-
+    
     //构造函数
     public BetterRedPointViewControl(Context context,View showView,int mDragViewId,DragStatusListener dragStatusListener){
         this.context = context;
