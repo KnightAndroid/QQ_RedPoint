@@ -50,7 +50,7 @@ public class BetterRedPointViewControl implements View.OnTouchListener,DragViewS
         this.showView = showView;
         this.mDragViewId = mDragViewId;
         this.dragStatusListener = dragStatusListener;
-        //设置监听 执行自己的出名事件
+        //设置监听 执行自己的触摸事件
         showView.setOnTouchListener(this);
         params = new WindowManager.LayoutParams();
         params.format = PixelFormat.TRANSLUCENT;
@@ -70,6 +70,7 @@ public class BetterRedPointViewControl implements View.OnTouchListener,DragViewS
             statusHeight = SystemUtil.getStatusBarHeight(showView);
             showView.setVisibility(View.INVISIBLE);
             dragView = LayoutInflater.from(context).inflate(mDragViewId,null,false);
+            //获取文本内容
             getText();
             windowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
             //每当触摸的时候就创建拖拽的小圆
@@ -263,7 +264,7 @@ public class BetterRedPointViewControl implements View.OnTouchListener,DragViewS
     }
 
     /**
-     * 得到帧动画的摧毁时间
+     * 得到帧动画的执行时间
      * @param mAnimDrawable
      * @return
      */
@@ -276,7 +277,7 @@ public class BetterRedPointViewControl implements View.OnTouchListener,DragViewS
     }
 
 
-
+    //在拖拽范围内还是拖拽范围外的监听
     public interface DragStatusListener{
         void inScope();
 

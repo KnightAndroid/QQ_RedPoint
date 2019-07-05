@@ -429,8 +429,8 @@ public class BetterRedPointView extends View {
 
     /**
      * 重新绘制拖拽圆的布局
-     * @param x
-     * @param y
+     * @param x x坐标
+     * @param y y坐标
      */
     private void changeManagerView(float x,float y){
         params.x = (int)(x - dragViewWidth);

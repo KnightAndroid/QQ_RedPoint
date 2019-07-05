@@ -21,9 +21,9 @@ import java.util.ArrayList;
 
 public class RecycleviewAdapter extends RecyclerView.Adapter<ItemHolder> {
     /**
-     * 用于记录需要删除的view的position
+     * 需要删除的view的position 用于更新rv操作
      */
-    ArrayList<Integer> removeList =new ArrayList<Integer>();
+    ArrayList<Integer> needRemoveList =new ArrayList<Integer>();
 
     private Context mContext;
     public RecycleviewAdapter(Context mContext){
@@ -45,23 +45,32 @@ public class RecycleviewAdapter extends RecyclerView.Adapter<ItemHolder> {
         itemHolder.tv_dragView.setText(String.valueOf(i));
 
         Glide.with(mContext).load(R.mipmap.iv_image).apply(RequestOptions.bitmapTransform(new CircleCrop()).override(200,200)).into(itemHolder.iv_head);
-        if(removeList.contains(i)){
+        //是否隐藏要拖拽的view
+        if(needRemoveList.contains(i)){
             itemHolder.tv_dragView.setVisibility(View.GONE);
         }
         else {
             itemHolder.tv_dragView.setVisibility(View.VISIBLE);
             itemHolder.tv_dragView.setText(String.valueOf(i));
         }
-
+        //一个是拖拽的view 一个是拖拽的view布局
         new BetterRedPointViewControl(mContext, itemHolder.tv_dragView, R.layout.includeview, new BetterRedPointViewControl.DragStatusListener() {
+            /**
+             * 在范围内
+             *
+             */
             @Override
             public void inScope() {
                 notifyDataSetChanged();
             }
 
+            /**
+             * 在范围外
+             *
+             */
             @Override
             public void outScope() {
-                removeList.add(i);
+                needRemoveList.add(i);
                 notifyDataSetChanged();
 
             }
